@@ -9,7 +9,7 @@ This project is designed to fetch data from a specified RSS feed over time using
 - **scripts/**:
   - `fetch_data.R`: The R script responsible for fetching data from the RSS feed.
 - **.github/workflows/**:
-  - `run_and_commit.yml`: The GitHub Actions workflow file that schedules and runs the R script daily at 14:05 UTC, and commits the results back to the repository.
+  - `run_and_commit.yml`: The GitHub Actions workflow file that schedules and runs the R script daily and commits the results back to the repository.
 
 ## Setup
 To run the scripts locally, you will need R installed on your machine along with the following R packages:
