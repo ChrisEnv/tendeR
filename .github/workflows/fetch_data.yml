@@ -18,9 +18,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        install.packages("tidyRSS")
-        install.packages("tidyverse")
-        install.packages("lubridate")
+        Rscript -e "install.packages('tidyRSS', repos='http://cran.rstudio.com/')"
+        Rscript -e "install.packages('tidyverse', repos='http://cran.rstudio.com/')"
+        Rscript -e "install.packages('lubridate', repos='http://cran.rstudio.com/')"
+
 
     - name: Run the R script
       run: Rscript scripts/fetch_data.R  # Make sure the path is correct
