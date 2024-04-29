@@ -3,7 +3,7 @@ name: Run R Script and Commit Results
 on:
   schedule:
     - cron: '5 14 * * *'
-  workflow_dispatch:  # Allows manual triggering from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   run_r_script:
@@ -16,15 +16,20 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
 
-    - name: Install dependencies
-      run: |
-        Rscript -e "install.packages('tidyRSS', repos='http://cran.rstudio.com/')"
-        Rscript -e "install.packages('tidyverse', repos='http://cran.rstudio.com/')"
-        Rscript -e "install.packages('lubridate', repos='http://cran.rstudio.com/')"
+    - name: Cache Renv Cache
+      uses: actions/cache@v2
+      with:
+        path: renv/library
+        key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+        restore-keys: ${{ runner.os }}-renv-
 
+    - name: Restore R environment
+      run: |
+        Rscript -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")'
+        Rscript -e 'renv::restore()'
 
     - name: Run the R script
-      run: Rscript scripts/fetch_data.R  # Make sure the path is correct
+      run: Rscript scripts/fetch_data.R
 
     - name: Configure Git
       run: |
