@@ -3,7 +3,7 @@ name: Run R Script and Commit Results
 on:
   schedule:
     # Runs at 14:05 UTC every day
-    - cron: '5 14 * * *'
+    - cron: "11 14 * * *"
 
 jobs:
   run_r_script:
