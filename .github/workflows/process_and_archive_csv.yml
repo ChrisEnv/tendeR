@@ -1,0 +1,38 @@
+name: Process and Archive CSV
+
+on:
+  workflow_run:
+    workflows: ["Run R Script and Commit Results"]  # Exact name as in the triggering workflow
+    types:
+      - completed
+
+jobs:
+  process_and_archive:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v1
+
+      - name: Install R packages
+        run: |
+          Rscript -e 'install.packages(c("DBI", "RSQLite", "tidyverse", "here"), repos = "http://cran.rstudio.com")'
+
+      - name: Write CSV to Database
+        run: |
+          Rscript scripts/write_db.R
+
+      - name: Move CSV file to archive
+        run: |
+          mkdir -p data/archive
+          mv data/fetched/*.csv data/archive/
+
+      - name: Commit changes
+        run: |
+          git add -A
+          git commit -m "Archive processed CSV files" || echo "No changes to commit"
+          git push

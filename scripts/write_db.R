@@ -114,6 +114,8 @@ check_guid <- function(){
     filter(n() > 1)
 }
 
+# read all csvs and join into db
 
-
-
+csv_dir <- here("data", "fetched")
+csv_files <- list.files(csv_dir, pattern = "\\.csv$", full.names = TRUE)
+walk(csv_files, join_into_db)
