@@ -17,7 +17,7 @@ rss_data <- fetch_rss_data(rss_url)
 
 # Generate a filename with the current date and time
 timestamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-file_path <- sprintf("data/rss_feed_data_%s.csv", timestamp)
+file_path <- sprintf("data/fetched/rss_feed_data_%s.csv", timestamp)
 
 # Write the data to a new CSV file
 write_csv(rss_data, file_path)
